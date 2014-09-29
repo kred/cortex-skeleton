@@ -26,14 +26,14 @@ DEVICE_SPECIFIC_MK = device-$(shell tr '[:upper:]' '[:lower:]' <<< $(DEVICE_MODE
 include $(SKELETON_BASE)/$(DEVICE_SPECIFIC_MK)
 
 LDOPT += -T$(LINKER) -nostartfiles -nodefaultlibs -nostdlib -Wl,-Map=$(PROJECT).map,--cref,--gc-sections $(COPT) -g -ffunction-sections -fdata-sections
-OBJECTS += $(CSRC:%.c=%.o) $(ASMSRC:%.s=%.o)
+OBJECTS += $(notdir $(CSRC:%.c=%.o) $(ASMSRC:%.s=%.o))
 
 
 all: $(PROJECT).elf $(PROJECT).bin $(PROJECT).hex $(PROJECT).lst
 
 $(PROJECT).elf: $(OBJECTS)
-#	@echo "Linking $@..."
-	$(CC) $(OBJECTS) $(LIBS) $(LDOPT) --output $@
+	@echo "Linking $@..."
+	@$(CC) $(OBJECTS) $(LIBS) $(LDOPT) --output $@
 
 $(PROJECT).bin: $(PROJECT).elf
 	@echo "Generating $@..."
@@ -47,11 +47,15 @@ $(PROJECT).lst: $(PROJECT).elf
 	@echo "Generating $@..."
 	@$(OBJDUMP) -D $(PROJECT).elf > $(PROJECT).lst
 
-.c.o:
+%.o: %.c
 	@echo "Compiling $@..."
 	@$(CC) -c $(COPT) $< -o $@
 
-.s.o:
+%.o: $(SRCDIR)/%.c
+	@echo "Compiling $@..."
+	@$(CC) -c $(COPT) $< -o $@
+
+%.o: $(SRCDIR)/%.s
 	@echo "Compiling $@..."
 	@$(CC) -c $(COPT) $< -o $@
 
