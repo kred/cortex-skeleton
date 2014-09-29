@@ -2,12 +2,17 @@
 
     Minimalistic linker script for STM32 microcontrollers.
 
-    Please update memory size.
+    Please update memory size and stack location.
 
+    Author: Krzysztof Dziuba krzysztof (at) meeqo.net
     License: LGPL-3.0
 
 
 */
+
+ENTRY(Reset_Handler)
+
+_estack = 0x20001000; /* end of 4K RAM */
 
 MEMORY
 {
@@ -20,19 +25,29 @@ SECTIONS
     .  = 0x0;         /* From 0x00000000 */
     .text :
     {
-        *(vectors)    /* Vector table */
+        KEEP(*(.isr_vector))    /* Vector table */
+        . = ALIGN(4);
         *(.text)      /* Program code */
         *(.rodata)    /* Read only data */
     } >rom
 
     .  = 0x20000000;  /* From 0x20000000 */
+    _sidata = .;
     .data :
     {
+        _sdata = .;
         *(.data)      /* Data memory */
+        *(.data*)
+        . = ALIGN(4);
+        _edata = .;
     } >ram AT > rom
 
     .bss :
     {
+        _sbss = .;
         *(.bss)       /* Zero-filled run time allocate data memory */
+        *(.bss*)
+        . = ALIGN(4);
+        _ebss = .;
     } >ram AT > rom
 }
