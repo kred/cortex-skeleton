@@ -1,4 +1,6 @@
 cortex-skeleton
 ===============
 
-Startup and linker files for ARM Cortex-M0,M3,M4 projects
+Startup and linker files for STM32 based projects. It may contains files from
+STMicroelectronics with their own "free" license (usually specified at header
+of source file).
