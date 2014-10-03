@@ -16,8 +16,8 @@ _estack = 0x20001000; /* end of 4K RAM */
 
 MEMORY
 {
+    rom (rx)  : ORIGIN = 0x08000000, LENGTH = 16K
     ram (rwx) : ORIGIN = 0x20000000, LENGTH = 4K
-    rom (rx)  : ORIGIN = 0x00000000, LENGTH = 16K
 }
 
 SECTIONS
