@@ -28,19 +28,30 @@ SECTIONS
         KEEP(*(.isr_vector))    /* Vector table */
         . = ALIGN(4);
         *(.text)      /* Program code */
-        *(.rodata)    /* Read only data */
+        *(.text*)      /* Program code */
     } >rom
 
-    .  = 0x20000000;  /* From 0x20000000 */
-    _sidata = .;
+    .rodata :
+    {
+        . = ALIGN(4);
+        *(.rodata)    /* Read only data */
+        *(.rodata*)    /* Read only data */
+        . = ALIGN(4);
+    } >rom
+
+    _sidata = LOADADDR(.data);
+
     .data :
     {
+        . = ALIGN(4);
         _sdata = .;
         *(.data)      /* Data memory */
         *(.data*)
         . = ALIGN(4);
         _edata = .;
-    } >ram AT > rom
+    } >ram AT >rom
+
+    . = ALIGN(4);
 
     .bss :
     {
@@ -49,5 +60,5 @@ SECTIONS
         *(.bss*)
         . = ALIGN(4);
         _ebss = .;
-    } >ram AT > rom
+    } >ram
 }

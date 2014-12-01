@@ -20,7 +20,7 @@ OBJCOPY = $(PREFIX)objcopy
 OBJDUMP = $(PREFIX)objdump
 
 INCDIR += $(SKELETON_BASE)/device/CMSIS/include/
-COPT += -O2 -ggdb -fomit-frame-pointer -falign-functions=16 -Wall -lgcc
+COPT += $(OPTIONS) -fomit-frame-pointer -falign-functions=16 -Wall -lgcc
 
 DEVICE_SPECIFIC_MK = device-$(shell tr '[:upper:]' '[:lower:]' <<< $(DEVICE_MODEL)).mk
 include $(SKELETON_BASE)/$(DEVICE_SPECIFIC_MK)
