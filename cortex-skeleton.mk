@@ -18,6 +18,7 @@ CC = $(PREFIX)gcc
 LD = $(PREFIX)ld
 OBJCOPY = $(PREFIX)objcopy
 OBJDUMP = $(PREFIX)objdump
+SHELL = /bin/bash
 
 INCDIR += $(SKELETON_BASE)/device/CMSIS/include/
 COPT += $(OPTIONS) -fomit-frame-pointer -falign-functions=16 -Wall -lgcc
