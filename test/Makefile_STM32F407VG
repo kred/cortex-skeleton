@@ -1,0 +1,7 @@
+SKELETON_BASE = ..
+DEVICE_MODEL = STM32F407VG
+CSRC += main.c
+PROJECT = test
+
+
+include ../cortex-skeleton.mk
